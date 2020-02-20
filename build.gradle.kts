@@ -1,8 +1,7 @@
 import org.jetbrains.kotlin.konan.target.*
 
 plugins {
-    kotlin("jvm") version "1.3.60"
-    kotlin("multiplatform") version "1.3.60" apply(false)
+    kotlin("multiplatform") version "1.3.60" apply false
     application
     java
 }
@@ -18,14 +17,17 @@ val drillAgentDist: Configuration by configurations.creating
 object DrillAgent {
     val version = "0.5.0-20"
     val platform = HostManager.host.presetName
-    val file = "drill_agent.dll"
+    val file = "drill_agent.${HostManager.host.family.dynamicSuffix}"
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }
 dependencies {
-    implementation(kotlin("stdlib"))
     implementation("org.eclipse.jetty:jetty-servlet:9.4.6.v20170531")
     implementation("javax.servlet:javax.servlet-api:3.1.0")
     implementation("ch.qos.logback:logback-classic:1.2.3")
-    implementation("io.github.microutils:kotlin-logging:1.7.8")
     drillAgentDist("com.epam.drill:drill-agent-${DrillAgent.platform}:${DrillAgent.version}")
 }
 
@@ -39,14 +41,14 @@ object AgentParams {
     val serviceGroupId = ""
     val buildVersion = "0.3.0"
     override fun toString(): String = listOf(::adminAddress, ::agentId, ::serviceGroupId, ::buildVersion)
-            .filter { it.get().isNotEmpty() }.joinToString(separator = ",") { "${it.name}=${it.get()}" }
+        .filter { it.get().isNotEmpty() }.joinToString(separator = ",") { "${it.name}=${it.get()}" }
 }
 
 application {
-    mainClassName = "org.springframework.samples.petclinic.HelloWorldKt" //TODO package
+    mainClassName = "org.springframework.samples.petclinic.HelloWorld" //TODO package
     applicationDefaultJvmArgs = listOf(
-            "-javaagent:${agentDir}/drill-proxy.jar=ttl.agent.logger:STDOUT",
-            "-agentpath:$agentPath=drillInstallationDir=$agentDir,$AgentParams"
+        "-javaagent:${agentDir}/drill-proxy.jar=ttl.agent.logger:STDOUT",
+        "-agentpath:$agentPath=drillInstallationDir=$agentDir,$AgentParams"
     )
 }
 
