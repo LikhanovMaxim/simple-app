@@ -15,7 +15,7 @@ repositories {
 val drillAgentDist: Configuration by configurations.creating
 
 object DrillAgent {
-    val version = "0.5.0-20"
+    val version = "0.5.0-39"
     val platform = HostManager.host.presetName
     val file = "drill_agent.${HostManager.host.family.dynamicSuffix}"
 }
@@ -34,6 +34,7 @@ dependencies {
 val agentsBaseDir = file("$buildDir/agents")
 val agentDir = file("$agentsBaseDir/${DrillAgent.platform}-${DrillAgent.version}")
 val agentPath = file("$agentDir/${DrillAgent.file}")
+val agentDebugSuspend = "n"
 
 object AgentParams {
     val adminAddress = "localhost:8090"
@@ -47,6 +48,7 @@ object AgentParams {
 application {
     mainClassName = "org.springframework.samples.petclinic.HelloWorld" //TODO package
     applicationDefaultJvmArgs = listOf(
+        "-agentlib:jdwp=transport=dt_socket,server=y,suspend=$agentDebugSuspend,address=5008",
         "-javaagent:${agentDir}/drill-proxy.jar=ttl.agent.logger:STDOUT",
         "-agentpath:$agentPath=drillInstallationDir=$agentDir,$AgentParams"
     )
