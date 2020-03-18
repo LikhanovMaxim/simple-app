@@ -12,7 +12,7 @@ class HelloWorld {
         logger.debug("It is starting the application");
         final Server server = new Server();
         ServerConnector connector = new ServerConnector(server);
-        connector.setPort(8078);
+        connector.setPort(8079);
         server.setConnectors(new ServerConnector[]{connector});
         server.setHandler(new JettyHandler());
         server.start();
