@@ -40,7 +40,7 @@ object AgentParams {
     val adminAddress = "localhost:8090"
     val agentId = "simple-jetty"
     val groupId = ""
-    val buildVersion = "0.3.0"
+    val buildVersion = "0.3.2"
     override fun toString(): String = listOf(::adminAddress, ::agentId, ::groupId, ::buildVersion)
         .filter { it.get().isNotEmpty() }.joinToString(separator = ",") { "${it.name}=${it.get()}" }
 }
