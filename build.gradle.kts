@@ -15,7 +15,7 @@ repositories {
 val drillAgentDist: Configuration by configurations.creating
 
 object DrillAgent {
-    val version = "0.5.0-39"
+    val version = "0.7.0-8"
     val platform = HostManager.host.presetName
     val file = "drill_agent.${HostManager.host.family.dynamicSuffix}"
 }
