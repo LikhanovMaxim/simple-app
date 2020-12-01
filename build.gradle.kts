@@ -39,9 +39,9 @@ val agentDebugSuspend = "n"
 object AgentParams {
     val adminAddress = "localhost:8090"
     val agentId = "simple-jetty"
-    val serviceGroupId = ""
+    val groupId = ""
     val buildVersion = "0.3.0"
-    override fun toString(): String = listOf(::adminAddress, ::agentId, ::serviceGroupId, ::buildVersion)
+    override fun toString(): String = listOf(::adminAddress, ::agentId, ::groupId, ::buildVersion)
         .filter { it.get().isNotEmpty() }.joinToString(separator = ",") { "${it.name}=${it.get()}" }
 }
 
@@ -49,7 +49,6 @@ application {
     mainClassName = "org.springframework.samples.petclinic.HelloWorld" //TODO package
     applicationDefaultJvmArgs = listOf(
         "-agentlib:jdwp=transport=dt_socket,server=y,suspend=$agentDebugSuspend,address=5008",
-        "-javaagent:${agentDir}/drill-proxy.jar=ttl.agent.logger:STDOUT",
         "-agentpath:$agentPath=drillInstallationDir=$agentDir,$AgentParams"
     )
 }
