@@ -15,7 +15,7 @@ repositories {
 val drillAgentDist: Configuration by configurations.creating
 
 object DrillAgent {
-    val version = "0.7.0-8"
+    val version = "0.7.0-27"
     val platform = HostManager.host.presetName
     val file = "drill_agent.${HostManager.host.family.dynamicSuffix}"
 }
@@ -40,7 +40,7 @@ object AgentParams {
     val adminAddress = "localhost:8090"
     val agentId = "simple-jetty"
     val groupId = ""
-    val buildVersion = "0.3.0"
+    val buildVersion = "0.1.0"
     override fun toString(): String = listOf(::adminAddress, ::agentId, ::groupId, ::buildVersion)
         .filter { it.get().isNotEmpty() }.joinToString(separator = ",") { "${it.name}=${it.get()}" }
 }
